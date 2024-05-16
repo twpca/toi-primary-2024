@@ -1,0 +1,47 @@
+[[execs]]
+filename = "steps_ek_sqrt_e.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+]
+
+[[execs]]
+filename = "steps_ek_sqrt_e_vector_without_cut.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+]
+
+[[execs]]
+filename = "steps_ek_sqrt_e_map_without_cut.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "TLE" },
+]
+
+[[execs]]
+filename = "steps_ek_1_2_not_3.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "WA" },
+]
+
+[[execs]]
+filename = "steps_ek_1_2_3_not_4.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "PC" },
+  { testcase = "1", expect = "PC" },
+]
+
+[[execs]]
+filename = "steps_ek_1_2_3_4_not_5.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "PC" },
+]

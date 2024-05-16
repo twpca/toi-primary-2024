@@ -1,0 +1,162 @@
+\documentclass[12pt,a4paper,table]{ltjsarticle}
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage{geometry}
+\geometry{top=2cm, bottom=2cm, left=0.75in, right=0.75in, includefoot}
+\usepackage[unicode,hidelinks,pdfusetitle]{hyperref}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{titletoc}
+\usepackage[explicit]{titlesec}
+\usepackage{indentfirst}
+\usepackage{needspace}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usetikzlibrary{arrows,quotes,positioning,shapes.geometric}
+\usepackage{float} % figure in minipage
+\usepackage{makecell}
+\usepackage{tasks}
+\usepackage{background}
+\usepackage{hhline}
+\usepackage{xcolor}
+
+% constants
+\newcommand{\ContestName}{2024 年國際資訊奧林匹亞研習營初選}
+\newcommand{\ContestDate}{2024.03.10}
+\newcommand{\EmptyPageHint}{
+  \vspace*{\fill}
+  \begin{center} \textbf{（此頁為空白頁）} \end{center}
+  \vspace*{\fill}
+}
+
+% tasks
+\settasks{style=enumerate, label-format={\color{red!70!black}\bfseries}, label-align=center, label-offset={0mm}, label-width={10mm}, item-indent={5mm}, item-format={\scshape\small}, column-sep={3mm}, after-item-skip=-1mm, after-skip={3mm}}
+
+% fonts
+\setmainjfont[BoldFont=Source Han Serif Bold]{SourceHanSerif}
+\setsansjfont[BoldFont=Source Han Sans Bold]{SourceHanSans}
+\setmainfont[Ligatures=TeX]{Linux Libertine O}
+\setsansfont[Ligatures=TeX]{Linux Biolinum O}
+\ltjsetparameter{jacharrange={-1, -2, +3, -4, -5, +6, +7, +8}}
+\def\tightlist{\itemsep1pt\parskip0pt\parsep0pt}
+
+% caption
+\captionsetup[figure]{labelformat=empty,labelsep=none}
+\captionsetup[table]{labelformat=empty,labelsep=none}
+
+\setlength{\parskip}{0.5\baselineskip}
+
+% section, subsection adjust
+\titleformat{\section}
+  {\normalfont\sffamily\centering\Large\bfseries}{\thesection.}{0em}{~#1}
+\titleformat{\subsection}
+  {\needspace{.25\textheight}\large\sffamily\bfseries}{}{0em}{#1}[]
+\titlespacing{\subsection}
+  {0em} % <left>
+  {0ex plus 0ex minus 0ex} % <before-sep>
+  {0ex plus 0ex} % <after-sep>
+\renewcommand\thesection{\Alph{section}}
+\renewcommand\thesubsection{\S}
+
+
+% clear even page
+\newcommand{\clearevenpage}{
+  \clearpage
+  \makeatletter
+  \ifodd \thepage \else
+    \EmptyPageHint{}
+    \newpage
+  \fi
+  \makeatother
+}
+\let\stdsection\section
+\renewcommand\section{\clearevenpage\stdsection}
+
+
+% command: current ref
+\newcommand\getcurrentref[1]{
+  \ifnumequal{\value{#1}}{0}%
+    {??}
+    {\the\value{#1}}%
+}
+
+
+% strcmp
+\directlua{dofile('func.lua')}
+\long \def \pdfstrcmp#1#2{\directlua{
+  strcmp("\luaescapestring{#1}", "\luaescapestring{#2}")
+}}
+
+% substr
+\directlua{dofile('func.lua')}
+\long \def \pdfsubstr#1#2#3{\directlua{
+  substr("\luaescapestring{#1}", \luaescapestring{#2}, \luaescapestring{#3})
+}}
+
+% top corner
+\makeatletter
+\def\@oddhead{
+  \ifnum \pdfstrcmp{??}{\getcurrentref{section}} = 0
+  \else
+    \ContestName{}\leftmark\hfil
+  \fi
+}
+\def\@evenhead{
+  \ifnum \pdfstrcmp{??}{\getcurrentref{section}} = 0
+  \else
+    \ContestName{}\leftmark\hfil
+  \fi
+}
+\makeatother
+
+\backgroundsetup{
+  scale=0.25,
+  angle=0,
+  opacity=0.3,
+  position=current page.north east,
+  nodeanchor=north east,
+  hshift=-2cm,
+  vshift=-2cm,
+  contents={}
+}
+
+% example environment
+\newenvironment{example}[1][]{
+  \ttfamily\obeylines\obeyspaces\frenchspacing
+  \newcommand{\exmp}[2]{
+    \begin{minipage}[t]{0.43\textwidth}\fontsize{12}{12}\selectfont\rightskip=0pt plus 1fill\relax##1\medskip\end{minipage}&
+    \begin{minipage}[t]{0.43\textwidth}\fontsize{12}{12}\selectfont\rightskip=0pt plus 1fill\relax##2\medskip\end{minipage}\\
+    \hline
+  }
+
+  \begin{longtable}{|l|l|}
+    \hline
+    \multicolumn{1}{|c|}{\bfseries\texttt{Sample Input}}&
+    \multicolumn{1}{|c|}{\bfseries\texttt{Sample Output}}\\
+    \hline
+}{
+  \end{longtable}
+}
+
+% format
+\newenvironment{format}[1][]{
+  \ttfamily\obeylines\obeyspaces\frenchspacing
+  \newcommand{\f}[2]{
+    \begin{minipage}[t]{0.9\textwidth}\fontsize{12}{12}\selectfont\rightskip=0pt plus 1fill\relax##1\medskip\end{minipage}\\
+    \hline
+  }
+
+  \begin{tabular}{|l|}
+    \hline
+}{
+  \end{tabular}
+}
+
+
+\begin{document}
+\input{titlepage.tex}
+\SetBgContents{\includegraphics{TOI_logo.png}}
+\input{universe.tex}
+\end{document}

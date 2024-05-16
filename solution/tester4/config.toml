@@ -1,0 +1,27 @@
+[[execs]]
+filename = "pb_ac.cpp"
+overwrite = { prob_id = "pb_6174" }
+tests = [{ testcase = "all", expect = "AC" }]
+
+[[execs]]
+filename = "pb_sub1.cpp"
+overwrite = { prob_id = "pb_6174" }
+tests = [
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "WA" },
+  { testcase = "3", expect = "WA" },
+]
+
+[[execs]]
+filename = "pb_overflow.cpp"
+overwrite = { prob_id = "pb_6174" }
+tests = [
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "WA" },
+]
+
+[[execs]]
+filename = "pb_faster.cpp"
+overwrite = { prob_id = "pb_6174" }
+tests = [{ testcase = "all", expect = "AC" }]

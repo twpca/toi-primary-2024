@@ -1,0 +1,15 @@
+.vscode
+*.exe
+*.o
+*.obj
+
+# packing
+cms_artifact.zip
+cms_packing/
+result.html
+
+# vagrant
+.vagrant
+
+# fonts
+lualatex/font

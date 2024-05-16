@@ -1,0 +1,41 @@
+*.exe
+*.o
+*.obj
+
+# vscode and extension config
+.vscode
+.clang-tidy
+
+# python
+__pycache__/
+*.pyc
+*$py.class
+
+# java
+*.jar
+
+# vagrant
+.vagrant
+environments/cms/*.log
+
+# packing
+cms_artifact.zip
+cms_packing/
+result.html
+
+# latex
+problems/universe.tex
+problems/problems.pdf
+problems/*.aux
+problems/*.log
+problems/*.out
+
+# generator
+generator/*.in
+generator/*.out
+testdata/**/*_autogen.in
+testdata/**/*_autogen.out
+
+# lualatex
+environments/lualatex/*.gz
+environments/lualatex/font

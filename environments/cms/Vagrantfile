@@ -1,0 +1,71 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  # Config: mirror
+  config.vm.provision "shell", inline: <<-SHELL
+    sed -i 's|archive.ubuntu.com|ftp.jaist.ac.jp/pub/Linux/|g' /etc/apt/sources.list
+  SHELL
+
+  # Config: network
+  config.vm.network "public_network",
+    ip: "192.168.2.232",
+    netmask: "255.255.255.0",
+    bridge: "Intel(R) Ethernet 10G 2P X540-t Adapter #2"
+
+  # Config: disable ipv6
+  config.vm.provision "shell",
+    inline: <<-SHELL
+      apt-get install -y net-tools
+      echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
+      echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
+      sysctl -p
+    SHELL
+
+  # Config: gateway
+  config.vm.provision "shell",
+    run: "always",
+    env: {
+      "IP_GATEWAY": "192.168.2.1"
+    },
+    inline: <<-SHELL
+      apt-get update
+      apt-get install -y net-tools
+      route delete default
+      route add default gw $IP_GATEWAY enp0s8
+    SHELL
+
+  # Config: virtualbox spec
+  config.disksize.size = "100GB"
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "cms2"
+    vb.gui = false
+    vb.cpus = 12
+    vb.memory = "8192"
+  end
+
+  config.vagrant.plugins = ["vagrant-disksize", "vagrant-vbguest"]
+
+  # add ssh test key for deploying
+  config.vm.provision "file", source: "ssh_key/test_key.pub", destination: "~/.ssh/test_key.pub"
+  config.vm.provision "shell", inline: <<-SHELL
+    cat /home/vagrant/.ssh/test_key.pub >> /home/vagrant/.ssh/authorized_keys
+    SHELL
+
+  ##
+  # Provisioning
+  ##
+  # Copy all the provision files to /home/[default user]/provision-files
+  config.vm.provision "file", source: "files", destination: "~/provision-files"
+
+  # Apply all the provision scripts.
+  # WARNING: The provision scripts are hardly coupled to the provision-files directory location
+  Dir.glob("scripts/*.sh") do |script|
+    config.vm.provision "shell", path: script, env: { DEFAULT_USER: "vagrant" }
+  end
+
+  # Start CMS
+  config.vm.provision "shell", inline: <<-SHELL
+    systemctl start cms@AdminWebServer.service cms@RankingWebServer.service cms@LogService.service
+    systemctl start cmsResourceManager.service
+  SHELL
+end

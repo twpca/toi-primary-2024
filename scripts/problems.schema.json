@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://gitlab.com/tw-highschool-algorithmic-competitions/toolchain/scripts/-/blob/main/problems.schema.json",
+  "title": "Problems",
+  "description": "A list of problems.",
+  "definitions": {
+    "test": {
+      "properties": {
+        "time_limit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "memory_limit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "checker": {
+          "type": "string",
+          "default": "diff.cpp"
+        },
+        "score": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "pdf": {
+          "type": "boolean",
+          "default": false
+        },
+        "manager": {
+          "type": "string"
+        },
+        "communication_processes": {
+          "type": "integer",
+          "default": 0
+        },
+        "generator": {
+          "type": "object",
+          "properties": {
+            "generator": {
+              "type": "string"
+            },
+            "solution": {
+              "type": "string"
+            },
+            "input_hash": {
+              "type": "object",
+              "patternProperties": {
+                "^.*\\.in$": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "generator",
+            "solution",
+            "input_hash"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "time_limit",
+        "checker"
+      ]
+    }
+  },
+  "type": "object",
+  "patternProperties": {
+    "^.*$": {
+      "$ref": "#/definitions/test"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Starts all cms services but: AdminWebServer, RankingWebServer and LogService
+Requires=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/tmp
+ExecStart=/usr/local/bin/cmsResourceService -a ALL
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+

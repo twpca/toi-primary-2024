@@ -1,0 +1,750 @@
+
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8">
+			<title>terminal-to-html Preview</title>
+			<style>.term-container {
+  background: #171717;
+  border-radius: 5px;
+  color: white;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  font-family: Monaco, courier;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 14px 18px;
+  white-space: pre-wrap;
+}
+
+.term-fg1 { } /* don't bold beccause it looks weird */
+.term-fg3 { font-style: italic; } /* italic */
+.term-fg4 { text-decoration: underline; } /* underline */
+.term-fg9 { text-decoration: line-through; } /* crossed-out */
+
+.term-fg30 { color: #666; } /* black (but we can't use black, so a diff color) */
+.term-fg31 { color: #e10c02; } /* red */
+.term-fg32 { color: #99ff5e; } /* green */
+.term-fg33 { color: #c6c502; } /* yellow */
+.term-fg34 { color: #8db7e0; } /* blue */
+.term-fg35 { color: #f271fb; } /* magenta */
+.term-fg36 { color: #00cdd9; } /* cyan */
+
+/* high intense colors */
+.term-fgi1 { color: #5ef765; }
+.term-fgi90 { color: #838887; } /* grey */
+
+/* background colors */
+.term-bg42 { background: #99ff5f; }
+.term-bg40 { background: #676767; }
+
+/* custom foreground/background combos for readability */
+.term-fg31.term-bg40 { color: #F8A39F; }
+
+/* xterm colors */
+.term-fgx16 { color: #000000; }
+.term-fgx17 { color: #00005f; }
+.term-fgx18 { color: #000087; }
+.term-fgx19 { color: #0000af; }
+.term-fgx20 { color: #0000d7; }
+.term-fgx21 { color: #0000ff; }
+.term-fgx22 { color: #005f00; }
+.term-fgx23 { color: #005f5f; }
+.term-fgx24 { color: #005f87; }
+.term-fgx25 { color: #005faf; }
+.term-fgx26 { color: #005fd7; }
+.term-fgx27 { color: #005fff; }
+.term-fgx28 { color: #008700; }
+.term-fgx29 { color: #00875f; }
+.term-fgx30 { color: #008787; }
+.term-fgx31 { color: #0087af; }
+.term-fgx32 { color: #0087d7; }
+.term-fgx33 { color: #0087ff; }
+.term-fgx34 { color: #00af00; }
+.term-fgx35 { color: #00af5f; }
+.term-fgx36 { color: #00af87; }
+.term-fgx37 { color: #00afaf; }
+.term-fgx38 { color: #00afd7; }
+.term-fgx39 { color: #00afff; }
+.term-fgx40 { color: #00d700; }
+.term-fgx41 { color: #00d75f; }
+.term-fgx42 { color: #00d787; }
+.term-fgx43 { color: #00d7af; }
+.term-fgx44 { color: #00d7d7; }
+.term-fgx45 { color: #00d7ff; }
+.term-fgx46 { color: #00ff00; }
+.term-fgx47 { color: #00ff5f; }
+.term-fgx48 { color: #00ff87; }
+.term-fgx49 { color: #00ffaf; }
+.term-fgx50 { color: #00ffd7; }
+.term-fgx51 { color: #00ffff; }
+.term-fgx52 { color: #5f0000; }
+.term-fgx53 { color: #5f005f; }
+.term-fgx54 { color: #5f0087; }
+.term-fgx55 { color: #5f00af; }
+.term-fgx56 { color: #5f00d7; }
+.term-fgx57 { color: #5f00ff; }
+.term-fgx58 { color: #5f5f00; }
+.term-fgx59 { color: #5f5f5f; }
+.term-fgx60 { color: #5f5f87; }
+.term-fgx61 { color: #5f5faf; }
+.term-fgx62 { color: #5f5fd7; }
+.term-fgx63 { color: #5f5fff; }
+.term-fgx64 { color: #5f8700; }
+.term-fgx65 { color: #5f875f; }
+.term-fgx66 { color: #5f8787; }
+.term-fgx67 { color: #5f87af; }
+.term-fgx68 { color: #5f87d7; }
+.term-fgx69 { color: #5f87ff; }
+.term-fgx70 { color: #5faf00; }
+.term-fgx71 { color: #5faf5f; }
+.term-fgx72 { color: #5faf87; }
+.term-fgx73 { color: #5fafaf; }
+.term-fgx74 { color: #5fafd7; }
+.term-fgx75 { color: #5fafff; }
+.term-fgx76 { color: #5fd700; }
+.term-fgx77 { color: #5fd75f; }
+.term-fgx78 { color: #5fd787; }
+.term-fgx79 { color: #5fd7af; }
+.term-fgx80 { color: #5fd7d7; }
+.term-fgx81 { color: #5fd7ff; }
+.term-fgx82 { color: #5fff00; }
+.term-fgx83 { color: #5fff5f; }
+.term-fgx84 { color: #5fff87; }
+.term-fgx85 { color: #5fffaf; }
+.term-fgx86 { color: #5fffd7; }
+.term-fgx87 { color: #5fffff; }
+.term-fgx88 { color: #870000; }
+.term-fgx89 { color: #87005f; }
+.term-fgx90 { color: #870087; }
+.term-fgx91 { color: #8700af; }
+.term-fgx92 { color: #8700d7; }
+.term-fgx93 { color: #8700ff; }
+.term-fgx94 { color: #875f00; }
+.term-fgx95 { color: #875f5f; }
+.term-fgx96 { color: #875f87; }
+.term-fgx97 { color: #875faf; }
+.term-fgx98 { color: #875fd7; }
+.term-fgx99 { color: #875fff; }
+.term-fgx100 { color: #878700; }
+.term-fgx101 { color: #87875f; }
+.term-fgx102 { color: #878787; }
+.term-fgx103 { color: #8787af; }
+.term-fgx104 { color: #8787d7; }
+.term-fgx105 { color: #8787ff; }
+.term-fgx106 { color: #87af00; }
+.term-fgx107 { color: #87af5f; }
+.term-fgx108 { color: #87af87; }
+.term-fgx109 { color: #87afaf; }
+.term-fgx110 { color: #87afd7; }
+.term-fgx111 { color: #87afff; }
+.term-fgx112 { color: #87d700; }
+.term-fgx113 { color: #87d75f; }
+.term-fgx114 { color: #87d787; }
+.term-fgx115 { color: #87d7af; }
+.term-fgx116 { color: #87d7d7; }
+.term-fgx117 { color: #87d7ff; }
+.term-fgx118 { color: #87ff00; }
+.term-fgx119 { color: #87ff5f; }
+.term-fgx120 { color: #87ff87; }
+.term-fgx121 { color: #87ffaf; }
+.term-fgx122 { color: #87ffd7; }
+.term-fgx123 { color: #87ffff; }
+.term-fgx124 { color: #af0000; }
+.term-fgx125 { color: #af005f; }
+.term-fgx126 { color: #af0087; }
+.term-fgx127 { color: #af00af; }
+.term-fgx128 { color: #af00d7; }
+.term-fgx129 { color: #af00ff; }
+.term-fgx130 { color: #af5f00; }
+.term-fgx131 { color: #af5f5f; }
+.term-fgx132 { color: #af5f87; }
+.term-fgx133 { color: #af5faf; }
+.term-fgx134 { color: #af5fd7; }
+.term-fgx135 { color: #af5fff; }
+.term-fgx136 { color: #af8700; }
+.term-fgx137 { color: #af875f; }
+.term-fgx138 { color: #af8787; }
+.term-fgx139 { color: #af87af; }
+.term-fgx140 { color: #af87d7; }
+.term-fgx141 { color: #af87ff; }
+.term-fgx142 { color: #afaf00; }
+.term-fgx143 { color: #afaf5f; }
+.term-fgx144 { color: #afaf87; }
+.term-fgx145 { color: #afafaf; }
+.term-fgx146 { color: #afafd7; }
+.term-fgx147 { color: #afafff; }
+.term-fgx148 { color: #afd700; }
+.term-fgx149 { color: #afd75f; }
+.term-fgx150 { color: #afd787; }
+.term-fgx151 { color: #afd7af; }
+.term-fgx152 { color: #afd7d7; }
+.term-fgx153 { color: #afd7ff; }
+.term-fgx154 { color: #afff00; }
+.term-fgx155 { color: #afff5f; }
+.term-fgx156 { color: #afff87; }
+.term-fgx157 { color: #afffaf; }
+.term-fgx158 { color: #afffd7; }
+.term-fgx159 { color: #afffff; }
+.term-fgx160 { color: #d70000; }
+.term-fgx161 { color: #d7005f; }
+.term-fgx162 { color: #d70087; }
+.term-fgx163 { color: #d700af; }
+.term-fgx164 { color: #d700d7; }
+.term-fgx165 { color: #d700ff; }
+.term-fgx166 { color: #d75f00; }
+.term-fgx167 { color: #d75f5f; }
+.term-fgx168 { color: #d75f87; }
+.term-fgx169 { color: #d75faf; }
+.term-fgx170 { color: #d75fd7; }
+.term-fgx171 { color: #d75fff; }
+.term-fgx172 { color: #d78700; }
+.term-fgx173 { color: #d7875f; }
+.term-fgx174 { color: #d78787; }
+.term-fgx175 { color: #d787af; }
+.term-fgx176 { color: #d787d7; }
+.term-fgx177 { color: #d787ff; }
+.term-fgx178 { color: #d7af00; }
+.term-fgx179 { color: #d7af5f; }
+.term-fgx180 { color: #d7af87; }
+.term-fgx181 { color: #d7afaf; }
+.term-fgx182 { color: #d7afd7; }
+.term-fgx183 { color: #d7afff; }
+.term-fgx184 { color: #d7d700; }
+.term-fgx185 { color: #d7d75f; }
+.term-fgx186 { color: #d7d787; }
+.term-fgx187 { color: #d7d7af; }
+.term-fgx188 { color: #d7d7d7; }
+.term-fgx189 { color: #d7d7ff; }
+.term-fgx190 { color: #d7ff00; }
+.term-fgx191 { color: #d7ff5f; }
+.term-fgx192 { color: #d7ff87; }
+.term-fgx193 { color: #d7ffaf; }
+.term-fgx194 { color: #d7ffd7; }
+.term-fgx195 { color: #d7ffff; }
+.term-fgx196 { color: #ff0000; }
+.term-fgx197 { color: #ff005f; }
+.term-fgx198 { color: #ff0087; }
+.term-fgx199 { color: #ff00af; }
+.term-fgx200 { color: #ff00d7; }
+.term-fgx201 { color: #ff00ff; }
+.term-fgx202 { color: #ff5f00; }
+.term-fgx203 { color: #ff5f5f; }
+.term-fgx204 { color: #ff5f87; }
+.term-fgx205 { color: #ff5faf; }
+.term-fgx206 { color: #ff5fd7; }
+.term-fgx207 { color: #ff5fff; }
+.term-fgx208 { color: #ff8700; }
+.term-fgx209 { color: #ff875f; }
+.term-fgx210 { color: #ff8787; }
+.term-fgx211 { color: #ff87af; }
+.term-fgx212 { color: #ff87d7; }
+.term-fgx213 { color: #ff87ff; }
+.term-fgx214 { color: #ffaf00; }
+.term-fgx215 { color: #ffaf5f; }
+.term-fgx216 { color: #ffaf87; }
+.term-fgx217 { color: #ffafaf; }
+.term-fgx218 { color: #ffafd7; }
+.term-fgx219 { color: #ffafff; }
+.term-fgx220 { color: #ffd700; }
+.term-fgx221 { color: #ffd75f; }
+.term-fgx222 { color: #ffd787; }
+.term-fgx223 { color: #ffd7af; }
+.term-fgx224 { color: #ffd7d7; }
+.term-fgx225 { color: #ffd7ff; }
+.term-fgx226 { color: #ffff00; }
+.term-fgx227 { color: #ffff5f; }
+.term-fgx228 { color: #ffff87; }
+.term-fgx229 { color: #ffffaf; }
+.term-fgx230 { color: #ffffd7; }
+.term-fgx231 { color: #ffffff; }
+.term-fgx232 { color: #080808; }
+.term-fgx233 { color: #121212; }
+.term-fgx234 { color: #1c1c1c; }
+.term-fgx235 { color: #262626; }
+.term-fgx236 { color: #303030; }
+.term-fgx237 { color: #3a3a3a; }
+.term-fgx238 { color: #444444; }
+.term-fgx239 { color: #4e4e4e; }
+.term-fgx240 { color: #585858; }
+.term-fgx241 { color: #626262; }
+.term-fgx242 { color: #6c6c6c; }
+.term-fgx243 { color: #767676; }
+.term-fgx244 { color: #808080; }
+.term-fgx245 { color: #8a8a8a; }
+.term-fgx246 { color: #949494; }
+.term-fgx247 { color: #9e9e9e; }
+.term-fgx248 { color: #a8a8a8; }
+.term-fgx249 { color: #b2b2b2; }
+.term-fgx250 { color: #bcbcbc; }
+.term-fgx251 { color: #c6c6c6; }
+.term-fgx252 { color: #d0d0d0; }
+.term-fgx253 { color: #dadada; }
+.term-fgx254 { color: #e4e4e4; }
+.term-fgx255 { color: #eeeeee; }
+</style>
+		</head>
+		<body>
+			<div class="term-container"><span class="term-fg32 term-fg1">$ python3 -m scripts.judge --workers 8</span>
+Pre compiling...: DONE
+&nbsp;
+Problem pb_6174 Testcase 0:
+ validator:
+  tester4&#47;pb.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pb_6174.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester4&#47;pb_ac.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester4&#47;pb_faster.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+&nbsp;
+Problem pb_6174 Testcase 1:
+ validator:
+  tester4&#47;pb.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pb_6174.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.003, 0.005, 0.024]
+  tester4&#47;pb_ac.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.005]
+  tester4&#47;pb_faster.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.006]
+  tester4&#47;pb_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.007]
+  tester4&#47;pb_sub1.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.002]
+&nbsp;
+Problem pb_6174 Testcase 2:
+ validator:
+  tester4&#47;pb.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pb_6174.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.002]
+  tester4&#47;pb_ac.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester4&#47;pb_faster.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester4&#47;pb_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester4&#47;pb_sub1.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+&nbsp;
+Problem pb_6174 Testcase 3:
+ validator:
+  tester4&#47;pb.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pb_6174.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.005, 0.023, 0.025, 0.027, 0.027, 0.018, 0.016, 0.033, 0.018, 0.019, 0.03, 0.016, 0.019, 0.023, 0.026, 0.025, 0.032, 0.019, 0.019]
+  tester4&#47;pb_ac.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.005, 0.006, 0.006, 0.007, 0.006, 0.005, 0.009, 0.007, 0.006, 0.009, 0.006, 0.007, 0.005, 0.01, 0.009, 0.009, 0.007, 0.006]
+  tester4&#47;pb_faster.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.005, 0.005, 0.006, 0.007, 0.004, 0.004, 0.007, 0.005, 0.005, 0.007, 0.005, 0.006, 0.004, 0.007, 0.007, 0.008, 0.006, 0.006]
+  tester4&#47;pb_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;]
+   time:  [0.001, 0.001, 0.005, 0.007, 0.007, 0.007, 0.006, 0.006, 0.009, 0.007, 0.006, 0.009, 0.006, 0.007, 0.005, 0.01, 0.01, 0.004, 0.002, 0.002]
+  tester4&#47;pb_sub1.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;]
+   time:  [0.001, 0.001, 0.001, 0.002, 0.002, 0.001, 0.001, 0.001, 0.002, 0.001, 0.001, 0.002, 0.001, 0.001, 0.002, 0.001, 0.001, 0.001, 0.001, 0.001]
+&nbsp;
+Problem pa_odd_square Testcase 0:
+ validator:
+  tester3&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester1&#47;pa_odd_square_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester1&#47;pa_odd_square_nm.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester3&#47;pa_t.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+&nbsp;
+Problem pa_odd_square Testcase 1:
+ validator:
+  tester3&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;pa_odd_square_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;pa_odd_square_nm.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.002, 0.001, 0.001, 0.002, 0.001, 0.002, 0.002, 0.002, 0.001, 0.005, 0.006, 0.005, 0.006, 0.005, 0.005, 0.006, 0.006, 0.006, 0.006, 0.007, 0.008, 0.006, 0.006, 0.006, 0.007, 0.006, 0.007, 0.007, 0.006]
+  tester3&#47;pa_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester3&#47;pa_slow_mn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester3&#47;pa_slow_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester3&#47;pa_t.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.002]
+&nbsp;
+Problem pa_odd_square Testcase 2:
+ validator:
+  tester3&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.004, 0.002, 0.002, 0.002, 0.008, 0.003, 0.002, 0.001, 0.001, 0.008, 0.006, 0.012, 0.009, 0.01, 0.008, 0.008, 0.008, 0.005, 0.002, 0.004, 0.004, 0.003, 0.007, 0.002, 0.003, 0.001, 0.003, 0.005, 0.002, 0.01]
+  tester1&#47;pa_odd_square_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.001, 0.001, 0.001, 0.004, 0.002, 0.002, 0.001, 0.001, 0.003, 0.003, 0.005, 0.004, 0.004, 0.004, 0.004, 0.004, 0.002, 0.001, 0.002, 0.002, 0.002, 0.004, 0.002, 0.002, 0.001, 0.002, 0.003, 0.001, 0.005]
+  tester3&#47;pa_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.001, 0.001, 0.005, 0.002, 0.001, 0.001, 0.001, 0.004, 0.003, 0.008, 0.004, 0.005, 0.005, 0.004, 0.004, 0.002, 0.001, 0.002, 0.002, 0.002, 0.004, 0.002, 0.002, 0.001, 0.002, 0.003, 0.001, 0.006]
+  tester3&#47;pa_slow_mn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;]
+   time:  [0.104, 0.084, 0.158, 0.076, 0.839, 0.507, 0.12, 0.044, 0.106, 0.12, 0.876, 1.018, 1.025, 1.037, 1.012, 0.399, 1.004, 0.787, 0.906, 1.016, 1.018, 1.038, 1.0, 1.002, 1.016, 1.057, 1.018, 1.029, 1.041, 1.098]
+  tester3&#47;pa_slow_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.001, 0.001, 0.001, 0.004, 0.002, 0.001, 0.001, 0.001, 0.003, 0.003, 0.005, 0.005, 0.004, 0.005, 0.003, 0.004, 0.002, 0.001, 0.002, 0.002, 0.002, 0.004, 0.002, 0.002, 0.001, 0.002, 0.004, 0.001, 0.005]
+  tester3&#47;pa_t.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.001, 0.001, 0.001, 0.004, 0.002, 0.001, 0.001, 0.001, 0.004, 0.003, 0.006, 0.004, 0.005, 0.004, 0.004, 0.004, 0.002, 0.001, 0.002, 0.003, 0.002, 0.004, 0.002, 0.002, 0.001, 0.002, 0.003, 0.001, 0.006]
+&nbsp;
+Problem pa_odd_square Testcase 3:
+ validator:
+  tester3&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;pa_odd_square.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.01, 0.004, 0.006, 0.004, 0.001, 0.012, 0.007, 0.001, 0.001, 0.005, 0.002, 0.005, 0.002, 0.006, 0.012, 0.011, 0.014, 0.01, 0.011, 0.001, 0.001, 0.004, 0.005, 0.005, 0.009, 0.002, 0.004, 0.003, 0.007, 0.005]
+  tester3&#47;pa_overflow.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;]
+   time:  [0.006, 0.003, 0.004, 0.003, 0.001, 0.008, 0.005, 0.001, 0.001, 0.003, 0.001, 0.003, 0.001, 0.004, 0.008, 0.007, 0.007, 0.006, 0.006, 0.001, 0.001, 0.003, 0.004, 0.004, 0.007, 0.002, 0.003, 0.002, 0.006, 0.004]
+  tester3&#47;pa_slow_mn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;RE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;]
+   time:  [0.294, 1.077, 1.012, 0.356, 1.046, 0.579, 0.532, 1.038, 1.092, 0.632, 0.757, 0.783, 0.566, 0.771, 0.912, 0.778, 0.693, 0.714, 0.725, 0.672, 0.701, 0.66, 0.732, 0.823, 0.922, 0.993, 1.156, 0.596, 0.898, 1.171]
+  tester3&#47;pa_slow_n.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;RE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;RE&#39;, &#39;RE&#39;, &#39;TLE&#39;, &#39;RE&#39;]
+   time:  [0.308, 1.116, 0.409, 0.633, 1.06, 0.915, 0.592, 0.887, 0.444, 0.488, 0.902, 0.57, 0.486, 0.646, 0.626, 0.5, 0.632, 0.572, 0.885, 0.625, 0.859, 0.63, 0.82, 0.961, 0.565, 1.203, 0.699, 0.725, 1.194, 0.734]
+  tester3&#47;pa_t.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.006, 0.003, 0.004, 0.003, 0.001, 0.008, 0.005, 0.001, 0.001, 0.003, 0.002, 0.004, 0.002, 0.004, 0.009, 0.007, 0.007, 0.007, 0.007, 0.001, 0.001, 0.004, 0.004, 0.004, 0.007, 0.002, 0.003, 0.003, 0.007, 0.004]
+&nbsp;
+Problem steps Testcase 0:
+ validator:
+  tester2&#47;steps.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;steps.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001]
+  tester1&#47;steps_whole_k.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001]
+  tester2&#47;steps_ek_1_2_3_4_not_5.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.003, 0.003, 0.003]
+  tester2&#47;steps_ek_1_2_3_not_4.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;]
+   time:  [0.002, 0.002, 0.002]
+   score:  [1.0, 1.0, 0.2]
+   score_min:  0.2
+  tester2&#47;steps_ek_1_2_not_3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.002]
+  tester2&#47;steps_ek_sqrt_e.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.002, 0.002]
+  tester2&#47;steps_ek_sqrt_e_map_without_cut.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.001]
+  tester2&#47;steps_ek_sqrt_e_vector_without_cut.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.002]
+&nbsp;
+Problem steps Testcase 1:
+ validator:
+  tester2&#47;steps.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;steps.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.006, 0.002, 0.004, 0.033, 0.002, 0.042, 0.003, 0.003, 0.003, 0.008, 0.008, 0.009, 0.017, 0.018, 0.019, 0.003, 0.003, 0.004, 0.009, 0.008, 0.009, 0.027, 0.021, 0.014, 0.003, 0.008, 0.004, 0.01, 0.05]
+  tester1&#47;steps_whole_k.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.013, 0.002, 0.003, 0.04, 0.003, 0.059, 0.006, 0.005, 0.006, 0.004, 0.005, 0.006, 0.015, 0.02, 0.02, 0.006, 0.004, 0.005, 0.004, 0.004, 0.004, 0.027, 0.021, 0.014, 0.004, 0.008, 0.004, 0.01, 0.009]
+  tester2&#47;steps_ek_1_2_3_4_not_5.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;]
+   time:  [0.003, 0.002, 0.003, 0.035, 0.003, 0.051, 0.002, 0.002, 0.002, 0.002, 0.003, 0.003, 0.009, 0.013, 0.013, 0.002, 0.002, 0.002, 0.002, 0.003, 0.003, 0.018, 0.014, 0.008, 0.004, 0.007, 0.005, 0.009, 0.004]
+   score:  [1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5]
+   score_min:  0.5
+  tester2&#47;steps_ek_1_2_3_not_4.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;]
+   time:  [0.003, 0.002, 0.003, 0.038, 0.003, 0.053, 0.002, 0.002, 0.002, 0.002, 0.003, 0.003, 0.008, 0.013, 0.013, 0.002, 0.002, 0.002, 0.003, 0.003, 0.002, 0.018, 0.013, 0.008, 0.004, 0.007, 0.004, 0.009, 0.004]
+   score:  [1.0, 0.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 0.5, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5]
+   score_min:  0.2
+  tester2&#47;steps_ek_1_2_not_3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;PC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.003, 0.034, 0.003, 0.052, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.007, 0.011, 0.012, 0.002, 0.002, 0.002, 0.002, 0.003, 0.002, 0.017, 0.011, 0.007, 0.003, 0.007, 0.004, 0.009, 0.004]
+   score:  [0.0, 1.0, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+   score_min:  0.0
+  tester2&#47;steps_ek_sqrt_e.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.007, 0.003, 0.009, 0.047, 0.005, 0.064, 0.005, 0.006, 0.006, 0.018, 0.019, 0.019, 0.027, 0.033, 0.03, 0.004, 0.007, 0.006, 0.015, 0.02, 0.02, 0.04, 0.036, 0.027, 0.007, 0.02, 0.011, 0.027, 0.977]
+  tester2&#47;steps_ek_sqrt_e_map_without_cut.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;AC&#39;]
+   time:  [0.01, 0.004, 0.011, 0.054, 0.005, 0.073, 0.005, 0.014, 0.009, 0.016, 0.025, 0.02, 0.025, 0.032, 0.03, 0.005, 0.015, 0.01, 0.017, 0.027, 0.022, 0.039, 0.033, 0.024, 0.152, 1.0, 0.474, 1.625, 1.094]
+  tester2&#47;steps_ek_sqrt_e_vector_without_cut.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.005, 0.003, 0.006, 0.046, 0.004, 0.066, 0.003, 0.005, 0.004, 0.006, 0.008, 0.007, 0.018, 0.024, 0.024, 0.003, 0.005, 0.004, 0.006, 0.008, 0.007, 0.033, 0.024, 0.017, 0.021, 0.087, 0.051, 0.242, 0.106]
+&nbsp;
+Problem distance Testcase 0:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.0]
+  tester1&#47;distance_brute_force.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0, 0.001, 0.001]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_n2logn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001]
+&nbsp;
+Problem distance Testcase 1:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_brute_force.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;distance_n2logn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+&nbsp;
+Problem distance Testcase 2:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.003, 0.003, 0.003, 0.002, 0.003, 0.003, 0.003, 0.004, 0.003, 0.003, 0.003, 0.003]
+  tester1&#47;distance_brute_force.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;]
+   time:  [0.046, 0.037, 0.389, 0.014, 0.029, 0.034, 0.034, 1.61, 4.046, 4.009, 4.029, 4.046]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.003, 0.003, 0.004, 0.003, 0.004, 0.004, 0.004, 0.003, 0.003, 0.003, 0.003, 0.003]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.002, 0.002, 0.002, 0.002, 0.003, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002]
+  tester1&#47;distance_n2logn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.032, 0.029, 0.187, 0.053, 0.025, 0.029, 0.023, 0.206, 0.454, 0.459, 0.327, 0.392]
+&nbsp;
+Problem distance Testcase 3:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.63, 0.698, 0.464, 0.467, 0.495, 0.579]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.679, 0.777, 0.517, 0.513, 0.5, 0.635]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.317, 0.343, 0.22, 0.228, 0.268, 0.309]
+  tester1&#47;distance_n2logn.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;]
+   time:  [0.001, 4.024, 4.059, 4.038, 0.857, 1.68, 4.103]
+&nbsp;
+Problem distance Testcase 4:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.551, 0.562, 0.561, 0.604, 0.73, 0.615, 0.499, 0.497]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.631, 0.654, 0.673, 0.753, 0.797, 0.748, 0.685, 0.57]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.282, 0.286, 0.288, 0.29, 0.331, 0.321, 0.247, 0.235]
+&nbsp;
+Problem distance Testcase 5:
+ validator:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;distance.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.54, 0.519, 0.514, 0.739, 0.681, 0.583, 0.652, 0.627]
+  tester1&#47;distance_doubling_kf.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.67, 0.776, 0.712, 0.937, 0.888, 0.785, 0.91, 0.839]
+  tester1&#47;distance_fast.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.245, 0.25, 0.242, 0.316, 0.319, 0.266, 0.295, 0.278]
+&nbsp;
+Problem habitat_distribution Testcase 0:
+ validator:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester1&#47;habitat_distribution_cut_vertex_and_bfs.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0]
+  tester1&#47;habitat_distribution_dfs_tree.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+  tester1&#47;habitat_distribution_dfs_tree_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0]
+  tester1&#47;habitat_distribution_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0]
+  tester1&#47;habitat_distribution_random2.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.0]
+  tester1&#47;habitat_distribution_random3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001]
+&nbsp;
+Problem habitat_distribution Testcase 1:
+ validator:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.077, 0.175, 0.213]
+  tester1&#47;habitat_distribution_cut_vertex_and_bfs.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.077, 0.187, 0.2]
+  tester1&#47;habitat_distribution_dfs_tree.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.083, 0.184, 0.226]
+  tester1&#47;habitat_distribution_dfs_tree_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.079, 0.201, 0.244]
+  tester1&#47;habitat_distribution_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.082, 0.151, 0.153]
+  tester1&#47;habitat_distribution_random2.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.073, 0.143, 0.148]
+  tester1&#47;habitat_distribution_random3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.081, 0.156, 0.159]
+&nbsp;
+Problem habitat_distribution Testcase 2:
+ validator:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.113, 0.128, 0.124, 0.115, 0.117, 0.258, 0.167, 0.055, 0.155, 0.231, 0.021]
+  tester1&#47;habitat_distribution_cut_vertex_and_bfs.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.103, 0.132, 0.111, 0.109, 0.109, 0.214, 0.162, 0.062, 0.164, 0.233, 0.034]
+  tester1&#47;habitat_distribution_dfs_tree.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.118, 0.138, 0.124, 0.114, 0.113, 0.248, 0.218, 0.054, 0.172, 0.244, 0.025]
+  tester1&#47;habitat_distribution_dfs_tree_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.118, 0.151, 0.136, 0.123, 0.121, 0.229, 0.205, 0.064, 0.153, 0.217, 0.035]
+  tester1&#47;habitat_distribution_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;]
+   time:  [2.54, 2.513, 2.511, 2.536, 2.502, 2.515, 2.54, 0.068, 2.524, 2.588, 0.022]
+  tester1&#47;habitat_distribution_random2.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;]
+   time:  [0.097, 0.119, 0.108, 0.103, 0.104, 0.167, 0.155, 0.055, 2.521, 2.584, 0.021]
+  tester1&#47;habitat_distribution_random3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;]
+   time:  [0.103, 0.131, 0.113, 0.112, 0.105, 0.171, 0.157, 0.059, 2.545, 2.506, 0.029]
+&nbsp;
+Problem habitat_distribution Testcase 3:
+ validator:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_cut_vertex_and_bfs.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_dfs_tree.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_dfs_tree_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_n3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_random.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;]
+   time:  [2.519, 2.544, 2.514, 2.537, 2.544, 2.527, 2.536]
+  tester1&#47;habitat_distribution_random2.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+  tester1&#47;habitat_distribution_random3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+&nbsp;
+Problem habitat_distribution Testcase 4:
+ validator:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+ solution:
+  tester1&#47;habitat_distribution.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.065, 0.133, 0.12, 0.125, 0.113, 0.236, 0.298, 0.274, 0.279, 0.272, 0.301, 0.243, 0.099, 0.333, 0.229, 0.173, 0.182, 0.242, 0.281, 0.206, 0.231, 0.169, 0.239, 0.173, 0.221, 0.161, 0.184, 0.234, 0.172, 0.154]
+  tester1&#47;habitat_distribution_cut_vertex_and_bfs.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;WA&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.203, 0.24, 0.196, 0.223, 0.179, 1.698, 0.246, 0.281, 0.275, 0.271, 0.302, 1.663, 0.283, 0.373, 0.227, 0.589, 0.181, 0.239, 0.314, 0.216, 0.224, 0.18, 0.242, 0.189, 0.22, 0.183, 0.186, 0.248, 0.182, 0.178]
+  tester1&#47;habitat_distribution_random2.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;]
+   time:  [2.584, 0.315, 0.124, 0.498, 0.124, 2.52, 0.198, 0.197, 0.191, 0.209, 0.222, 2.505, 0.11, 0.28, 2.532, 2.585, 2.529, 2.51, 0.219, 0.188, 2.555, 2.542, 2.513, 2.584, 2.563, 2.52, 2.594, 2.627, 2.551, 2.52]
+  tester1&#47;habitat_distribution_random3.cpp: <span class="term-fg32">PASS</span>
+   results:  [&#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;TLE&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;, &#39;AC&#39;]
+   time:  [0.056, 0.116, 0.108, 0.114, 0.106, 0.194, 0.21, 0.194, 0.219, 0.225, 0.228, 0.177, 0.105, 0.267, 2.583, 2.555, 0.189, 0.247, 0.22, 0.185, 2.514, 2.533, 2.503, 2.55, 0.189, 0.161, 0.164, 0.186, 0.161, 0.166]
+&nbsp;
+All tests passed
+<span class="term-fg36 term-fg1">Cleaning up project directory and file based variables</span>
+<span class="term-fg32 term-fg1">Job succeeded</span></div>
+		</body>
+	</html>

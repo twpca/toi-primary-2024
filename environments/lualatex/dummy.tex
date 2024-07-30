@@ -1,0 +1,58 @@
+\documentclass[12pt,a4paper]{ltjsarticle}
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage{geometry}
+\geometry{top=2cm, bottom=2cm, left=0.75in, right=0.75in, includefoot}
+
+\usepackage[unicode,hidelinks,pdfusetitle]{hyperref}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{titletoc}
+\usepackage[explicit]{titlesec}
+\usepackage{indentfirst}
+\usepackage{needspace}
+
+% fonts
+\setmainjfont[BoldFont=Source Han Serif Bold]{SourceHanSerif}
+\setsansjfont[BoldFont=Source Han Sans Bold]{SourceHanSans}
+\newjfontfamily{\fonta}{SourceHanSerifTC}
+\newjfontfamily{\fontb}{SourceHanSansTC}
+\setmainfont[Ligatures=TeX]{Linux Libertine O}
+\setsansfont[Ligatures=TeX]{Linux Biolinum O}
+\ltjsetparameter{jacharrange={-1, -2, +3, -4, -5, +6, +7, +8}}
+\def\tightlist{\itemsep1pt\parskip0pt\parsep0pt}
+
+\setlength{\parskip}{0.5\baselineskip}
+
+% section, subsection adjust
+\titleformat{\section}
+  {\normalfont\sffamily\centering\Large\bfseries}{\thesection.}{0em}{~#1}
+\titleformat{\subsection}
+  {\needspace{.25\textheight} \normalfont\sffamily\bfseries}{}{0em}{~#1}[]
+\titlespacing{\subsection}
+  {0em} % <left>
+  {0ex plus 0ex minus 0ex} % <before-sep>
+  {0ex plus 0ex} % <after-sep>
+\renewcommand\thesection{\Alph{section}}
+\renewcommand\thesubsection{\S}
+
+
+\begin{document}
+
+吾輩は猫である。名前はまだ無い。
+
+どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。
+吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。
+この書生というのは時々我々を捕えて煮て食うという話である。
+しかしその当時は何という考もなかったから別段恐しいとも思わなかった。
+ただ彼の掌に載せられてスーと持ち上げられた時何だかフワフワした感じがあったばかりである。
+掌の上で少し落ちついて書生の顔を見たのがいわゆる人間というものの見始であろう。この時妙なものだと思った感じが今でも残っている。
+第一毛をもって装飾されべきはずの顔がつるつるしてまるで薬缶だ。
+その後猫にもだいぶ逢ったがこんな片輪には一度も出会わした事がない。
+のみならず顔の真中があまりに突起している。
+そうしてその穴の中から時々ぷうぷうと煙を吹く。
+どうも咽せぽくて実に弱った。これが人間の飲む煙草というものである事はようやくこの頃知った。
+
+\fonta 123
+
+\fontb 456
+\end{document}

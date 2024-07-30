@@ -1,0 +1,116 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  GIT_SUBMODULE_UPDATE_FLAGS: --remote --jobs 4
+
+stages:
+  - build
+  - pack
+  - deploy
+
+config_test:
+  image: judge-runner:latest
+  stage: build
+  script:
+    - python3 -m scripts.parse_configs
+
+duplicate_scores:
+  image: judge-runner:latest
+  stage: build
+  script:
+    - python3 -m scripts.duplicate_scores --ignore-probs test test2
+  when: manual
+
+generator_test:
+  image: judge-runner:latest
+  stage: build
+  before_script:
+    - ulimit -s unlimited
+  script:
+    - python3 -m scripts.generate_tests
+
+unittest:
+  image: judge-runner:latest
+  stage: build
+  before_script:
+    - ulimit -s unlimited
+  script:
+    - python3 -m scripts.generate_tests
+    - python3 -m scripts.judge --workers 8
+  allow_failure: true
+
+pdf:
+  image: tex:latest
+  stage: build
+  script:
+    - python3 -m scripts.pdf
+  artifacts:
+    paths:
+      - problems/problems.pdf
+      - problems/*.tex
+
+pack_cms:
+  image: judge-runner:latest
+  stage: pack
+  dependencies:
+    - pdf
+  script:
+    - python3 -m scripts.cms_packer --no-sample
+  artifacts:
+    paths:
+      - cms_artifact.zip
+
+deploy_cms_vm_manual:
+  image: judge-runner:latest
+  stage: deploy
+  dependencies:
+    - pack_cms
+  script:
+    - python3 -m scripts.cms_deploy vm
+  resource_group: lock_vm # only allow one job simultaneously
+  artifacts:
+    paths:
+      - result.html
+  when: manual
+
+deploy_cms_vm:
+  image: judge-runner:latest
+  stage: deploy
+  dependencies:
+    - pack_cms
+  script:
+    - python3 -m scripts.cms_deploy vm
+  resource_group: lock_vm # only allow one job simultaneously
+  artifacts:
+    paths:
+      - result.html
+  only:
+    refs:
+      - main
+
+deploy_cms_ntnu_manual:
+  image: judge-runner:latest
+  stage: deploy
+  dependencies:
+    - pack_cms
+  script:
+    - python3 -m scripts.cms_deploy ntnu
+  resource_group: lock_ntnu # only allow one job simultaneously
+  artifacts:
+    paths:
+      - result.html
+  when: manual
+
+deploy_cms_ntnu:
+  image: judge-runner:latest
+  stage: deploy
+  dependencies:
+    - pack_cms
+  script:
+    - python3 -m scripts.cms_deploy ntnu
+  resource_group: lock_ntnu # only allow one job simultaneously
+  artifacts:
+    paths:
+      - result.html
+  only:
+    refs:
+      - main

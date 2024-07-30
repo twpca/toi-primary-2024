@@ -1,0 +1,12 @@
+[Unit]
+Description=Run CMS %i
+Requires=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/tmp
+ExecStart=/bin/sh -c "/usr/local/bin/cms%i"
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

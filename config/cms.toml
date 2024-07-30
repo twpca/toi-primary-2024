@@ -1,0 +1,70 @@
+[[test_servers]]
+name = "vm"
+host = "192.168.2.232"
+user = "vagrant"
+key = "environments/cms/ssh_key/test_key"
+
+[contest]
+name = "toi-primary-2024-test"
+description = "TOI Primary 2024 test"
+token_mode = "infinite"
+
+[[contest.users]]
+username = "u1"
+password = "p1"
+
+[contest-config]
+languages = ["C11 / gcc", "C++14 / g++", "Java / JDK", "Python 3 / CPython"]
+
+[contest-config.mapping]
+"C11 / gcc" = [".c"]
+"C++17 / g++" = [".cpp", ".cc", ".cxx", ".c++", ".C"]
+"Java / JDK" = [".java"]
+"Python 3 / CPython" = [".py"]
+
+[task_template]
+infile = ""
+outfile = ""
+task_type = "Batch"
+score_mode = "max_subtask" # 2017~
+token_mode = "infinite"
+score_type = "GroupMin"
+score_type_parameters = ""
+time_limit = 15
+memory_limit = 1024
+
+[[tasks]]
+name = "pb_6174"
+title = "black hole number"
+time_limit = 1.0
+  [tasks.inclusive_tests]
+  3 = ["1", "2"]
+
+[[tasks]]
+name = "pa_odd_square"
+title = "odd square"
+time_limit = 1.0
+  [tasks.inclusive_tests]
+  2 = ["1"]
+  3 = ["1", "2"]
+
+[[tasks]]
+name = "steps"
+title = "steps"
+time_limit = 1.0
+
+[[tasks]]
+name = "distance"
+title = "distance"
+time_limit = 3.5
+  [tasks.inclusive_tests]
+  2 = ["1"]
+  4 = ["3"]
+  5 = ["1", "2", "3", "4"]
+
+[[tasks]]
+name = "habitat_distribution"
+title = "habitat distribution"
+time_limit = 2.5
+  [tasks.inclusive_tests]
+  4 = ["1", "2", "3"]

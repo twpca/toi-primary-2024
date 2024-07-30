@@ -1,0 +1,32 @@
+[[execs]]
+filename = "pa_t.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [{ testcase = "all", expect = "AC" }]
+
+[[execs]]
+filename = "pa_slow_mn.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "TLE" },
+  { testcase = "3", expect = "TLE" },
+]
+
+[[execs]]
+filename = "pa_slow_n.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "TLE" },
+]
+
+[[execs]]
+filename = "pa_overflow.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "WA" },
+  { testcase = "3", expect = "WA" },
+]
+

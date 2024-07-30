@@ -1,0 +1,178 @@
+[[execs]]
+filename = "pb_6174.cpp"
+overwrite = { prob_id = "pb_6174" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "AC" }
+]
+
+[[execs]]
+filename = "pa_odd_square.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "AC" }
+]
+
+[[execs]]
+filename = "pa_odd_square_nm.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" }
+  # skip subtask 2, 3
+]
+
+[[execs]]
+filename = "pa_odd_square_n.cpp"
+overwrite = { prob_id = "pa_odd_square" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" }
+  # skip subtask 3
+]
+
+[[execs]]
+filename = "steps.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" }
+]
+
+[[execs]]
+filename = "steps_whole_k.cpp"
+overwrite = { prob_id = "steps" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" }
+]
+
+[[execs]]
+filename = "distance_doubling_kf.cpp"
+overwrite = { prob_id = "distance" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "AC" },
+  { testcase = "4", expect = "AC" },
+  { testcase = "5", expect = "AC" }
+]
+
+[[execs]]
+filename = "distance_fast.cpp"
+overwrite = { prob_id = "distance" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "AC" },
+  { testcase = "4", expect = "AC" },
+  { testcase = "5", expect = "AC" }
+]
+
+[[execs]]
+filename = "distance_brute_force.cpp"
+overwrite = { prob_id = "distance" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "TLE" }
+  # skip subtask 3, 4, 5
+]
+
+[[execs]]
+filename = "distance_n2logn.cpp"
+overwrite = { prob_id = "distance" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "TLE" }
+  # skip subtask 4, 5
+]
+
+[[execs]]
+filename = "habitat_distribution.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [{ testcase = "all", expect = "AC" }]
+
+[[execs]]
+filename = "habitat_distribution_dfs_tree.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "WA" },
+  { testcase = "3", expect = "WA" }
+  # skip subtask 4
+]
+
+[[execs]]
+filename = "habitat_distribution_dfs_tree_random.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "WA" },
+  { testcase = "3", expect = "WA" }
+  # skip subtask 4
+]
+
+[[execs]]
+filename = "habitat_distribution_random.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "TLE" },
+  { testcase = "3", expect = "TLE" }
+  # skip subtask 4
+]
+
+[[execs]]
+filename = "habitat_distribution_random2.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "TLE" },
+  { testcase = "3", expect = "AC" },
+  { testcase = "4", expect = "TLE" }
+]
+
+[[execs]]
+filename = "habitat_distribution_random3.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "TLE" },
+  { testcase = "3", expect = "AC" },
+  { testcase = "4", expect = "TLE" }
+]
+
+[[execs]]
+filename = "habitat_distribution_n3.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "3", expect = "AC" }
+  # skip subtask 0, 1, 2, 4
+]
+
+[[execs]]
+filename = "habitat_distribution_cut_vertex_and_bfs.cpp"
+overwrite = { prob_id = "habitat_distribution" }
+tests = [
+  { testcase = "0", expect = "AC" },
+  { testcase = "1", expect = "AC" },
+  { testcase = "2", expect = "AC" },
+  { testcase = "3", expect = "WA" },
+  { testcase = "4", expect = "WA" }
+]
